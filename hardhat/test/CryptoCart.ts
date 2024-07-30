@@ -109,5 +109,9 @@ describe("CryptoCart", () => {
       const product = await contract.products(ID);
       expect(product.stock).to.equal(STOCK - 1);
     });
+
+    it("Emit ProductPurchased event", () => {
+      expect(tx).to.emit(contract, "ProductPurchased");
+    });
   });
 });

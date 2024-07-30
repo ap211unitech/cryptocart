@@ -31,6 +31,7 @@ contract CryptoCart {
         uint256 cost,
         uint256 stock
     );
+    event ProductPurchased(address addr, uint256 orderId, uint256 productId);
 
     constructor() {
         name = "CryptoCart";
@@ -74,6 +75,10 @@ contract CryptoCart {
         // Get product
         Product memory product = products[_id];
 
+        require(
+            msg.value >= product.cost,
+            "Not enough balance to purchase this product !!"
+        );
         require(product.stock > 0, "Product not in stock !!");
 
         // Create an order
@@ -81,12 +86,14 @@ contract CryptoCart {
 
         // Save order
         orderCount[msg.sender]++;
-        orders[msg.sender][orderCount[msg.sender]] = order;
+        uint256 orderId = orderCount[msg.sender];
+        orders[msg.sender][orderId] = order;
 
         // Reduce the stock
         products[_id].stock = product.stock - 1;
 
         // Emit Event
+        emit ProductPurchased(msg.sender, orderId, product.id);
     }
 
     // Withdraw Funds
