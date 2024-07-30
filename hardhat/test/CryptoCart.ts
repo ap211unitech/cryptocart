@@ -26,4 +26,25 @@ describe("CryptoCart", () => {
       expect(contractName).to.equal("CryptoCart");
     });
   });
+
+  describe("Product Creation", () => {
+    beforeEach(async () => {
+      await contract.createProduct(
+        1,
+        "Nike Shoes",
+        "Shoes",
+        "https://tinyurl.com/3e8hh8fa",
+        1,
+        4,
+        10
+      );
+    });
+
+    it("Get Product", async () => {
+      const product = await contract.products(1);
+      expect(product[0]).to.equal(1);
+      expect(product[1]).to.equal("Nike Shoes");
+      expect(product[2]).to.equal("Shoes");
+    });
+  });
 });
