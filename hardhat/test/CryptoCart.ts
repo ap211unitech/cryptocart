@@ -16,7 +16,7 @@ describe("CryptoCart", () => {
   let contract: CryptoCart & {
     deploymentTransaction(): ContractTransactionResponse;
   };
-  let deployer: { address: any }, buyer: ContractRunner | null | undefined;
+  let deployer: { address: any }, buyer: { address: any };
 
   beforeEach(async () => {
     [deployer, buyer] = await ethers.getSigners();
@@ -67,7 +67,7 @@ describe("CryptoCart", () => {
   describe("Product Purchasing", () => {
     let tx: ContractTransactionResponse;
 
-    it("Purchase product", async () => {
+    beforeEach("Purchase product", async () => {
       // Create a product before purchase
       tx = await contract.createProduct(
         ID,
@@ -80,15 +80,34 @@ describe("CryptoCart", () => {
       );
       await tx.wait();
 
-      tx = await contract.connect(buyer).purchaseProduct(ID, { value: COST });
+      tx = await contract
+        .connect(buyer as unknown as ContractRunner)
+        .purchaseProduct(ID, { value: COST });
       await tx.wait();
     });
 
-    // Not working
     it("Get contract balance", async () => {
       const contractAddress = await contract.getAddress();
       const balance = await ethers.provider.getBalance(contractAddress);
       expect(balance).to.equal(COST);
+    });
+
+    it("Updates Order count", async () => {
+      const orderCount = await contract.orderCount(buyer.address);
+      expect(orderCount).to.equal(1);
+    });
+
+    it("Adds new order", async () => {
+      const orderCount = await contract.orderCount(buyer.address);
+      const order = await contract.orders(buyer.address, orderCount);
+      expect(order.time).to.be.greaterThan(0);
+      expect(order[1].id).to.equal(ID);
+      expect(order[1].name).to.equal(NAME);
+    });
+
+    it("Reduced product InStock value", async () => {
+      const product = await contract.products(ID);
+      expect(product.stock).to.equal(STOCK - 1);
     });
   });
 });
