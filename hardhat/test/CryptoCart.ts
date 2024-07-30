@@ -1,14 +1,22 @@
 import { expect } from "chai";
-import { ContractTransactionResponse } from "ethers";
+import { ContractRunner, ContractTransactionResponse } from "ethers";
 import { ethers } from "hardhat";
 import { CryptoCart } from "../typechain-types";
 import { tokens } from "../utils";
+
+const ID = 1;
+const NAME = "Nike Shoes";
+const CATEGORY = "Shoes";
+const IMAGE = "https://tinyurl.com/3e8hh8fa";
+const COST = tokens(0.001);
+const RATING = 4;
+const STOCK = 9;
 
 describe("CryptoCart", () => {
   let contract: CryptoCart & {
     deploymentTransaction(): ContractTransactionResponse;
   };
-  let deployer: { address: any }, buyer;
+  let deployer: { address: any }, buyer: ContractRunner | null | undefined;
 
   beforeEach(async () => {
     [deployer, buyer] = await ethers.getSigners();
@@ -30,14 +38,6 @@ describe("CryptoCart", () => {
 
   describe("Product Creation", () => {
     let tx: ContractTransactionResponse;
-
-    const ID = 1;
-    const NAME = "Nike Shoes";
-    const CATEGORY = "Shoes";
-    const IMAGE = "https://tinyurl.com/3e8hh8fa";
-    const COST = tokens(0.001);
-    const RATING = 4;
-    const STOCK = 9;
 
     beforeEach(async () => {
       tx = await contract.createProduct(
@@ -61,6 +61,34 @@ describe("CryptoCart", () => {
 
     it("Emit ProductCreated event", () => {
       expect(tx).to.emit(contract, "ProductCreated");
+    });
+  });
+
+  describe("Product Purchasing", () => {
+    let tx: ContractTransactionResponse;
+
+    it("Purchase product", async () => {
+      // Create a product before purchase
+      tx = await contract.createProduct(
+        ID,
+        NAME,
+        CATEGORY,
+        IMAGE,
+        COST,
+        RATING,
+        STOCK
+      );
+      await tx.wait();
+
+      tx = await contract.connect(buyer).purchaseProduct(ID, { value: COST });
+      await tx.wait();
+    });
+
+    // Not working
+    it("Get contract balance", async () => {
+      const contractAddress = await contract.getAddress();
+      const balance = await ethers.provider.getBalance(contractAddress);
+      expect(balance).to.equal(COST);
     });
   });
 });

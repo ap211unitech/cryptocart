@@ -59,6 +59,7 @@ contract CryptoCart {
     }
 
     // Buy Products
+    function purchaseProduct(uint256 _id) public payable {}
 
     // Withdraw Funds
 }
