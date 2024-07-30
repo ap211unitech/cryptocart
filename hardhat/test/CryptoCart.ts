@@ -2,6 +2,7 @@ import { expect } from "chai";
 import { ContractTransactionResponse } from "ethers";
 import { ethers } from "hardhat";
 import { CryptoCart } from "../typechain-types";
+import { tokens } from "../utils";
 
 describe("CryptoCart", () => {
   let contract: CryptoCart & {
@@ -28,23 +29,32 @@ describe("CryptoCart", () => {
   });
 
   describe("Product Creation", () => {
+    const ID = 1;
+    const NAME = "Nike Shoes";
+    const CATEGORY = "Shoes";
+    const IMAGE = "https://tinyurl.com/3e8hh8fa";
+    const COST = tokens(0.001);
+    const RATING = 4;
+    const STOCK = 9;
+
     beforeEach(async () => {
-      await contract.createProduct(
-        1,
-        "Nike Shoes",
-        "Shoes",
-        "https://tinyurl.com/3e8hh8fa",
-        1,
-        4,
-        10
+      const tx = await contract.createProduct(
+        ID,
+        NAME,
+        CATEGORY,
+        IMAGE,
+        COST,
+        RATING,
+        STOCK
       );
+      await tx.wait();
     });
 
     it("Get Product", async () => {
-      const product = await contract.products(1);
-      expect(product[0]).to.equal(1);
-      expect(product[1]).to.equal("Nike Shoes");
-      expect(product[2]).to.equal("Shoes");
+      const product = await contract.products(ID);
+      expect(product[0]).to.equal(ID);
+      expect(product[1]).to.equal(NAME);
+      expect(product[2]).to.equal(CATEGORY);
     });
   });
 });
