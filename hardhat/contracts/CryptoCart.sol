@@ -97,4 +97,10 @@ contract CryptoCart {
     }
 
     // Withdraw Funds
+    function withdraw() public onlyOwner {
+        (bool callSuccess, ) = payable(msg.sender).call{
+            value: address(this).balance
+        }("");
+        require(callSuccess, "Withdraw failed !!");
+    }
 }

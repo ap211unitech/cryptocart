@@ -114,4 +114,42 @@ describe("CryptoCart", () => {
       expect(tx).to.emit(contract, "ProductPurchased");
     });
   });
+
+  describe("Withdraw Funds", () => {
+    let balanceBefore: bigint;
+
+    beforeEach(async () => {
+      // Create a product
+      let transaction = await contract
+        .connect(deployer as unknown as ContractRunner)
+        .createProduct(ID, NAME, CATEGORY, IMAGE, COST, RATING, STOCK);
+      await transaction.wait();
+
+      // Purchase product
+      transaction = await contract
+        .connect(buyer as unknown as ContractRunner)
+        .purchaseProduct(ID, { value: COST });
+      await transaction.wait();
+
+      // Get Deployer balance before
+      balanceBefore = await ethers.provider.getBalance(deployer.address);
+
+      // Withdraw
+      transaction = await contract
+        .connect(deployer as unknown as ContractRunner)
+        .withdraw();
+      await transaction.wait();
+    });
+
+    it("Updates the owner balance", async () => {
+      const balanceAfter = await ethers.provider.getBalance(deployer.address);
+      expect(balanceAfter).to.be.greaterThan(balanceBefore);
+    });
+
+    it("Updates the contract balance", async () => {
+      const contractAddress = await contract.getAddress();
+      const result = await ethers.provider.getBalance(contractAddress);
+      expect(result).to.equal(0);
+    });
+  });
 });
