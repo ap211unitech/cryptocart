@@ -17,9 +17,22 @@ contract CryptoCart {
 
     mapping(uint256 => Product) public products;
 
+    event ProductCreated(
+        uint256 id,
+        string name,
+        string category,
+        uint256 cost,
+        uint256 stock
+    );
+
     constructor() {
         name = "CryptoCart";
         owner = msg.sender;
+    }
+
+    modifier onlyOwner() {
+        require(msg.sender == owner, "Only owner allowed !!");
+        _;
     }
 
     // Create Product
@@ -31,7 +44,7 @@ contract CryptoCart {
         uint256 _cost,
         uint256 _rating,
         uint256 _stock
-    ) public {
+    ) public onlyOwner {
         Product memory newProduct = Product(
             _id,
             _name,
@@ -42,6 +55,7 @@ contract CryptoCart {
             _stock
         );
         products[_id] = newProduct;
+        emit ProductCreated(_id, _name, _category, _cost, _stock);
     }
 
     // Buy Products

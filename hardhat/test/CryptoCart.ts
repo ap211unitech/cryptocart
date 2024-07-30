@@ -29,6 +29,8 @@ describe("CryptoCart", () => {
   });
 
   describe("Product Creation", () => {
+    let tx: ContractTransactionResponse;
+
     const ID = 1;
     const NAME = "Nike Shoes";
     const CATEGORY = "Shoes";
@@ -38,7 +40,7 @@ describe("CryptoCart", () => {
     const STOCK = 9;
 
     beforeEach(async () => {
-      const tx = await contract.createProduct(
+      tx = await contract.createProduct(
         ID,
         NAME,
         CATEGORY,
@@ -55,6 +57,10 @@ describe("CryptoCart", () => {
       expect(product[0]).to.equal(ID);
       expect(product[1]).to.equal(NAME);
       expect(product[2]).to.equal(CATEGORY);
+    });
+
+    it("Emit ProductCreated event", () => {
+      expect(tx).to.emit(contract, "ProductCreated");
     });
   });
 });
