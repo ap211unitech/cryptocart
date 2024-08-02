@@ -144,6 +144,10 @@ describe("CryptoCart", () => {
       let order = await contract.orders(buyer.address, 1);
       expect(order.status).to.be.equal(3);
     });
+
+    it("Emit OrderStatusChanged event", () => {
+      expect(tx).to.emit(contract, "OrderStatusChanged");
+    });
   });
 
   describe("Withdraw Funds", () => {

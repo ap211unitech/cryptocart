@@ -45,6 +45,11 @@ contract CryptoCart {
         uint256 stock
     );
     event ProductPurchased(address addr, uint256 orderId, uint256 productId);
+    event OrderStatusChanged(
+        address addr,
+        uint256 orderId,
+        OrderStatus orderStatus
+    );
 
     constructor() {
         name = "CryptoCart";
@@ -120,6 +125,7 @@ contract CryptoCart {
         OrderStatus _newOrderStatus
     ) public onlyOwner {
         orders[_orderCreator][_orderId].status = _newOrderStatus;
+        emit OrderStatusChanged(_orderCreator, _orderId, _newOrderStatus);
     }
 
     // Withdraw Funds
