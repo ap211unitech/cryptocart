@@ -115,6 +115,37 @@ describe("CryptoCart", () => {
     });
   });
 
+  describe("Update Order Status", () => {
+    let tx: ContractTransactionResponse;
+
+    beforeEach("Purchase product", async () => {
+      // Create a product before purchase
+      tx = await contract.createProduct(
+        ID,
+        NAME,
+        CATEGORY,
+        IMAGE,
+        COST,
+        RATING,
+        STOCK
+      );
+      await tx.wait();
+
+      tx = await contract
+        .connect(buyer as unknown as ContractRunner)
+        .purchaseProduct(ID, { value: COST });
+      await tx.wait();
+
+      tx = await contract.changeOrderStatus(buyer.address, 1, 3);
+      await tx.wait();
+    });
+
+    it("Should update Order status", async () => {
+      let order = await contract.orders(buyer.address, 1);
+      expect(order.status).to.be.equal(3);
+    });
+  });
+
   describe("Withdraw Funds", () => {
     let balanceBefore: bigint;
 

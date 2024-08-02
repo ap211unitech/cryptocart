@@ -1,9 +1,21 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.24;
 
+// More tasks -
+
+// 1. Order status updates by Admin
+// 2. Category Add/Delete/Edit and Product should belong to Avaliable Category
+
 contract CryptoCart {
     string public name;
     address public owner;
+
+    enum OrderStatus {
+        PaymentDone,
+        Shipped,
+        Cancelled,
+        Completed
+    }
 
     struct Product {
         uint256 id;
@@ -18,6 +30,7 @@ contract CryptoCart {
     struct Order {
         uint256 time;
         Product product;
+        OrderStatus status;
     }
 
     mapping(uint256 => Product) public products;
@@ -82,7 +95,11 @@ contract CryptoCart {
         require(product.stock > 0, "Product not in stock !!");
 
         // Create an order
-        Order memory order = Order(block.timestamp, product);
+        Order memory order = Order(
+            block.timestamp,
+            product,
+            OrderStatus.PaymentDone
+        );
 
         // Save order
         orderCount[msg.sender]++;
@@ -94,6 +111,15 @@ contract CryptoCart {
 
         // Emit Event
         emit ProductPurchased(msg.sender, orderId, product.id);
+    }
+
+    // Change Order Status
+    function changeOrderStatus(
+        address _orderCreator,
+        uint256 _orderId,
+        OrderStatus _newOrderStatus
+    ) public onlyOwner {
+        orders[_orderCreator][_orderId].status = _newOrderStatus;
     }
 
     // Withdraw Funds
