@@ -2,8 +2,7 @@ import { ProductsList } from "./products";
 
 export const Landing = () => {
   return (
-    <div>
-      <h1 className="font-bold text-2xl p-10">Welcome to CryptoCart !!</h1>
+    <div className="sm:container px-2 py-4">
       <ProductsList />
     </div>
   );
