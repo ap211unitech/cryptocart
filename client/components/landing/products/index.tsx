@@ -10,6 +10,7 @@ import { abi } from "@/config/abi";
 import { productsAtom } from "@/providers/jotai";
 import { Product } from "@/types";
 import { Rating } from "@/components/ui/rating";
+import Link from "next/link";
 
 export const ProductsList = () => {
   const [products, setProducts] = useAtom(productsAtom);
@@ -52,7 +53,8 @@ export const ProductsList = () => {
               <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
                 {items.map((e) => {
                   return (
-                    <div
+                    <Link
+                      href={`/product?id=${e.id}`}
                       key={e.id}
                       className="border rounded-md overflow-hidden transition hover:scale-105 cursor-pointer"
                     >
@@ -73,7 +75,7 @@ export const ProductsList = () => {
                           ETH
                         </p>
                       </div>
-                    </div>
+                    </Link>
                   );
                 })}
               </div>
