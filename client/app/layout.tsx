@@ -1,4 +1,5 @@
 import { MetaMaskInpageProvider } from "@metamask/providers";
+import { Provider as JotaiProvider } from "jotai";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { Alert, AlertDescription } from "@/components/ui/alert";
@@ -28,14 +29,17 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Alert className="bg-yellow-100 py-2 rounded-none">
-          <AlertDescription className="flex items-center justify-center gap-2">
-            <TriangleAlert className="h-5 w-5" />
-            CryptoCart is currently deployed exclusively on the Sepolia Testnet.
-          </AlertDescription>
-        </Alert>
-        <Navigation />
-        {children}
+        <JotaiProvider>
+          <Alert className="bg-yellow-100 py-2 rounded-none">
+            <AlertDescription className="flex items-center justify-center gap-2">
+              <TriangleAlert className="h-5 w-5" />
+              CryptoCart is currently deployed exclusively on the Sepolia
+              Testnet.
+            </AlertDescription>
+          </Alert>
+          <Navigation />
+          {children}
+        </JotaiProvider>
       </body>
     </html>
   );
