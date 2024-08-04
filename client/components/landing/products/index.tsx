@@ -2,39 +2,18 @@
 
 import Image from "next/image";
 import { ethers } from "ethers";
-import { useAtom } from "jotai";
-import { useCallback, useEffect } from "react";
 
-import { CONTRACT_ADDRESS } from "@/config/contract";
-import { abi } from "@/config/abi";
-import { productsAtom } from "@/providers/jotai";
-import { Product } from "@/types";
 import { Rating } from "@/components/ui/rating";
 import Link from "next/link";
+import { useGetProducts } from "@/hooks";
+import { Loading } from "./loading";
 
 export const ProductsList = () => {
-  const [products, setProducts] = useAtom(productsAtom);
+  const { data: products, isLoading } = useGetProducts();
 
-  const getProducts = useCallback(async () => {
-    if (window.ethereum) {
-      const provider = new ethers.providers.Web3Provider(
-        window.ethereum as any
-      );
-      const contract = new ethers.Contract(CONTRACT_ADDRESS, abi, provider);
+  if (isLoading) return <Loading />;
 
-      const products = [];
-      for (let i = 1; i < 10; i++) {
-        const { category, id, image, name, cost, rating, stock } =
-          (await contract.products(i)) as Product;
-        products.push({ category, id, image, name, cost, rating, stock });
-      }
-      setProducts(products);
-    }
-  }, [setProducts]);
-
-  useEffect(() => {
-    getProducts();
-  }, [getProducts]);
+  if (!products) return <h2 className="text-xl">No products found...</h2>;
 
   return (
     <div>

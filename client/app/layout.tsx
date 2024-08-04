@@ -1,10 +1,10 @@
 import { MetaMaskInpageProvider } from "@metamask/providers";
-import { Provider as JotaiProvider } from "jotai";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { TriangleAlert } from "lucide-react";
 import { Navigation } from "@/components/ui/navigation";
+import { Providers } from "@/providers";
 
 import "./globals.css";
 
@@ -29,7 +29,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <JotaiProvider>
+        <Providers>
           <Alert className="bg-yellow-100 py-2 rounded-none">
             <AlertDescription className="flex items-center justify-center gap-2">
               <TriangleAlert className="h-5 w-5" />
@@ -39,7 +39,7 @@ export default function RootLayout({
           </Alert>
           <Navigation />
           {children}
-        </JotaiProvider>
+        </Providers>
       </body>
     </html>
   );
