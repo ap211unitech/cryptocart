@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { BigNumber, ethers } from "ethers";
+import { ethers } from "ethers";
 import { useAtom } from "jotai";
 
 import { selectedAccountAtom } from "@/providers/jotai";
