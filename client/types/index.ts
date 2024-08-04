@@ -7,3 +7,16 @@ export type Product = {
   rating: number;
   stock: number;
 };
+
+export enum OrderStatus {
+  PaymentDone,
+  Shipped,
+  Cancelled,
+  Completed,
+}
+
+export type Order = {
+  time: number;
+  product: Product;
+  status: OrderStatus;
+};
