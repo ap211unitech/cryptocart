@@ -1,6 +1,7 @@
 "use client";
 
 import { BigNumber, ethers } from "ethers";
+import { useWindowSize } from "usehooks-ts";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -11,10 +12,14 @@ import { useOrders, usePurchaseProduct } from "@/hooks";
 import { OrderStatus } from "@/types";
 
 import { Loading } from "./loading";
+import { useMemo } from "react";
 
 export const Orders = () => {
+  const { width } = useWindowSize();
   const { data: orders, isLoading, isPending } = useOrders();
   const { mutateAsync: purchaseProduct } = usePurchaseProduct();
+
+  const isResponsive = useMemo(() => width < 400, [width]);
 
   if (isLoading || isPending) return <Loading />;
 
@@ -23,12 +28,21 @@ export const Orders = () => {
       {!orders ? (
         <h1 className="text-xl">No orders found...</h1>
       ) : (
-        <>
-          <h1 className="text-2xl font-semibold">Your Orders</h1>
+        <div>
+          <h1
+            className={`text-2xl font-semibold ${
+              isResponsive && "text-center"
+            }`}
+          >
+            Your Orders
+          </h1>
           <div className="flex flex-col gap-8 my-4">
             {orders.map((e) => {
               return (
-                <div key={e.time} className="flex gap-8">
+                <div
+                  key={e.time}
+                  className={`flex gap-8 ${isResponsive && "flex-col mx-auto"}`}
+                >
                   <Link
                     href={`/product?id=${e.product.id}`}
                     className="overflow-hidden"
@@ -84,7 +98,7 @@ export const Orders = () => {
               );
             })}
           </div>
-        </>
+        </div>
       )}
     </div>
   );
