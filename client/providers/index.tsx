@@ -8,6 +8,7 @@ import {
 } from "@tanstack/react-query";
 import { Provider as JotaiProvider } from "jotai";
 import { ReactNode, useState } from "react";
+import { Toaster } from "sonner";
 
 export const Providers = ({ children }: { children: ReactNode }) => {
   const [queryClient] = useState(() => new QueryClient());
@@ -16,6 +17,7 @@ export const Providers = ({ children }: { children: ReactNode }) => {
     <JotaiProvider>
       <QueryClientProvider client={queryClient}>
         <HydrationBoundary state={dehydrate(queryClient)}>
+          <Toaster richColors />
           {children}
         </HydrationBoundary>
       </QueryClientProvider>

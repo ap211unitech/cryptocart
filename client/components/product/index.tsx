@@ -10,14 +10,11 @@ import { Button } from "../ui/button";
 
 import { Loading } from "./loading";
 
-import { useGetProduct } from "@/hooks";
+import { useGetProduct, usePurchaseProduct } from "@/hooks";
 
 export const ProductItem = ({ productId }: { productId: string }) => {
   const { data: product, isLoading } = useGetProduct({ productId });
-
-  const purchaseProduct = () => {
-    console.log("Purchasing product...");
-  };
+  const { mutateAsync: purchaseProduct } = usePurchaseProduct();
 
   if (isLoading) return <Loading />;
 
@@ -86,7 +83,7 @@ export const ProductItem = ({ productId }: { productId: string }) => {
             </section>
 
             {product.stock > 1 ? (
-              <Button onClick={purchaseProduct}>Purchase</Button>
+              <Button onClick={() => purchaseProduct(product)}>Purchase</Button>
             ) : (
               <p className="text-destructive">Out of stock</p>
             )}
