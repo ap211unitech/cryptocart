@@ -1,5 +1,6 @@
 "use client";
 
+import { useAuth } from "@/hooks";
 import {
   dehydrate,
   HydrationBoundary,
@@ -18,9 +19,15 @@ export const Providers = ({ children }: { children: ReactNode }) => {
       <QueryClientProvider client={queryClient}>
         <HydrationBoundary state={dehydrate(queryClient)}>
           <Toaster richColors />
+          <Auth />
           {children}
         </HydrationBoundary>
       </QueryClientProvider>
     </JotaiProvider>
   );
+};
+
+const Auth = () => {
+  useAuth();
+  return <></>;
 };
