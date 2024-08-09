@@ -2,7 +2,7 @@
 
 import { useAtom } from "jotai";
 import { Button } from "./button";
-import { selectedAccountAtom } from "@/providers/jotai";
+import { adminAtom, selectedAccountAtom } from "@/providers/jotai";
 
 import {
   DropdownMenu,
@@ -17,6 +17,7 @@ import { useOrders } from "@/hooks";
 
 export const ConnectWallet = () => {
   const [selectedAccount, setSelectedAccount] = useAtom(selectedAccountAtom);
+  const [isAdmin] = useAtom(adminAtom);
   const { data: orders } = useOrders();
 
   const handleConnect = async () => {
@@ -55,12 +56,14 @@ export const ConnectWallet = () => {
                   <span>Your Orders ({orders?.length})</span>
                 </Link>
               </DropdownMenuItem>
-              <DropdownMenuItem className="cursor-pointer" asChild>
-                <Link href="/manageOrders">
-                  <ShoppingBasket className="mr-2 h-4 w-4" />
-                  <span>All Orders</span>
-                </Link>
-              </DropdownMenuItem>
+              {isAdmin && (
+                <DropdownMenuItem className="cursor-pointer" asChild>
+                  <Link href="/manageOrders">
+                    <ShoppingBasket className="mr-2 h-4 w-4" />
+                    <span>All Orders</span>
+                  </Link>
+                </DropdownMenuItem>
+              )}
               <DropdownMenuItem
                 className="cursor-pointer"
                 onClick={handleLogout}
