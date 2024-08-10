@@ -8,7 +8,7 @@ const main = async () => {
 
   // Deploy contract
   const cryptocart = await ethers.getContractFactory("CryptoCart");
-  const contract = await cryptocart.deploy({ gasLimit: 1500000 });
+  const contract = await cryptocart.deploy({ gasLimit: 5000000 });
   const contractAddress = await contract.getAddress();
   console.log(`Deployed Contract at => ${contractAddress}`);
 

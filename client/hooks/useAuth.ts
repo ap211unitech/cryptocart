@@ -27,7 +27,7 @@ export const useAuth = () => {
             chainName: "Sepolia",
             nativeCurrency: {
               name: "SEP",
-              symbol: "SEP",
+              symbol: "SepoliaETH",
               decimals: 18,
             },
             blockExplorerUrls: ["https://sepolia.etherscan.io/"],
