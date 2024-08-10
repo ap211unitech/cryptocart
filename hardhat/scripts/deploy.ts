@@ -8,7 +8,7 @@ const main = async () => {
 
   // Deploy contract
   const cryptocart = await ethers.getContractFactory("CryptoCart");
-  const contract = await cryptocart.deploy();
+  const contract = await cryptocart.deploy({ gasLimit: 1500000 });
   const contractAddress = await contract.getAddress();
   console.log(`Deployed Contract at => ${contractAddress}`);
 
@@ -25,6 +25,7 @@ const main = async () => {
       products[i].stock
     );
     await tx.wait();
+    await new Promise((resolve) => setTimeout(resolve, 2000));
     console.log(`Listed item ${products[i].id}: ${products[i].name}`);
   }
 };
