@@ -133,6 +133,11 @@ export const abi = [
       },
       {
         internalType: "string",
+        name: "_description",
+        type: "string",
+      },
+      {
+        internalType: "string",
         name: "_image",
         type: "string",
       },
@@ -228,6 +233,11 @@ export const abi = [
           },
           {
             internalType: "string",
+            name: "description",
+            type: "string",
+          },
+          {
+            internalType: "string",
             name: "image",
             type: "string",
           },
@@ -296,6 +306,11 @@ export const abi = [
       {
         internalType: "string",
         name: "category",
+        type: "string",
+      },
+      {
+        internalType: "string",
+        name: "description",
         type: "string",
       },
       {

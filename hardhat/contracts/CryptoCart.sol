@@ -2,9 +2,7 @@
 pragma solidity ^0.8.24;
 
 // More tasks -
-
-// 1. Order status updates by Admin
-// 2. Category Add/Delete/Edit and Product should belong to Avaliable Category
+// 1. Category Add/Delete/Edit and Product should belong to Avaliable Category
 
 contract CryptoCart {
     string public name;
@@ -21,6 +19,7 @@ contract CryptoCart {
         uint256 id;
         string name;
         string category;
+        string description;
         string image;
         uint256 cost;
         uint256 rating;
@@ -66,6 +65,7 @@ contract CryptoCart {
         uint256 _id,
         string memory _name,
         string memory _category,
+        string memory _description,
         string memory _image,
         uint256 _cost,
         uint256 _rating,
@@ -75,6 +75,7 @@ contract CryptoCart {
             _id,
             _name,
             _category,
+            _description,
             _image,
             _cost,
             _rating,

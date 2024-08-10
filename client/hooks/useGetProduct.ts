@@ -18,10 +18,10 @@ export const useGetProduct = ({ productId }: Props) => {
         );
         const contract = new ethers.Contract(CONTRACT_ADDRESS, abi, provider);
 
-        const { category, id, image, name, cost, rating, stock } =
+        const { category, id, image, name, cost, rating, stock, description } =
           (await contract.products(productId)) as Product;
 
-        return { category, id, image, name, cost, rating, stock };
+        return { category, id, image, name, cost, rating, stock, description };
       }
       return {} as Product;
     },

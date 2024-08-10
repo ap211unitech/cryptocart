@@ -7,6 +7,8 @@ import { tokens } from "../utils";
 const ID = 1;
 const NAME = "Nike Shoes";
 const CATEGORY = "Shoes";
+const DESCRIPTION =
+  "Discover the perfect addition to your lifestyle with this product. Designed with quality and functionality in mind, this product offers exceptional performance, making it a must-have for anyone looking to enhance their everyday experience. Whether you're at home, at work, or on the go, this versatile item is crafted to meet your needs with ease. With a sleek design and durable construction, it blends style and practicality seamlessly. Ideal for both personal use and as a thoughtful gift, our product is sure to impress. Explore the benefits today and experience the difference it can make in your life.";
 const IMAGE = "https://tinyurl.com/3e8hh8fa";
 const COST = tokens(0.001);
 const RATING = 4;
@@ -44,6 +46,7 @@ describe("CryptoCart", () => {
         ID,
         NAME,
         CATEGORY,
+        DESCRIPTION,
         IMAGE,
         COST,
         RATING,
@@ -73,6 +76,7 @@ describe("CryptoCart", () => {
         ID,
         NAME,
         CATEGORY,
+        DESCRIPTION,
         IMAGE,
         COST,
         RATING,
@@ -124,6 +128,7 @@ describe("CryptoCart", () => {
         ID,
         NAME,
         CATEGORY,
+        DESCRIPTION,
         IMAGE,
         COST,
         RATING,
@@ -157,7 +162,16 @@ describe("CryptoCart", () => {
       // Create a product
       let transaction = await contract
         .connect(deployer as unknown as ContractRunner)
-        .createProduct(ID, NAME, CATEGORY, IMAGE, COST, RATING, STOCK);
+        .createProduct(
+          ID,
+          NAME,
+          CATEGORY,
+          DESCRIPTION,
+          IMAGE,
+          COST,
+          RATING,
+          STOCK
+        );
       await transaction.wait();
 
       // Purchase product

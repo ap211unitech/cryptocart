@@ -46,12 +46,9 @@ export const ProductItem = ({ productId }: { productId: string }) => {
             </p>
             <Separator />
             <section className="my-4">
-              <h2 className="text-2xl font-semibold">Overview</h2>
+              <h2 className="text-2xl font-semibold mb-2">Overview</h2>
               <p className="text-muted-foreground text-sm">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Obcaecati, labore est? Minima facere aperiam ipsa at? Facilis
-                dolorum nam sint quas, cupiditate, culpa, eligendi dolorem
-                dignissimos maiores porro dolores libero.
+                {product.description}
               </p>
             </section>
             <Separator />

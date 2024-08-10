@@ -16,9 +16,26 @@ export const useGetProducts = () => {
 
         const products = [];
         for (let i = 1; i < 10; i++) {
-          const { category, id, image, name, cost, rating, stock } =
-            (await contract.products(i)) as Product;
-          products.push({ category, id, image, name, cost, rating, stock });
+          const {
+            category,
+            id,
+            image,
+            name,
+            cost,
+            rating,
+            stock,
+            description,
+          } = (await contract.products(i)) as Product;
+          products.push({
+            category,
+            id,
+            image,
+            name,
+            cost,
+            rating,
+            stock,
+            description,
+          });
         }
         return products;
       }

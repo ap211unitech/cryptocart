@@ -18,6 +18,7 @@ const main = async () => {
       products[i].id,
       products[i].name,
       products[i].category,
+      products[i].description,
       products[i].image,
       tokens(+products[i].price),
       products[i].rating,

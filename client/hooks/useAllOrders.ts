@@ -41,11 +41,29 @@ export const useAllOrders = () => {
             buyer,
             orderId
           )) as Order;
-          const { category, id, image, name, cost, rating, stock } = product;
+          const {
+            category,
+            id,
+            image,
+            name,
+            cost,
+            rating,
+            stock,
+            description,
+          } = product;
           buyerOrders.push({
             time,
             status,
-            product: { category, id, image, name, cost, rating, stock },
+            product: {
+              category,
+              id,
+              image,
+              name,
+              cost,
+              rating,
+              stock,
+              description,
+            },
           });
         }
 

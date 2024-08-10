@@ -25,11 +25,21 @@ export const useOrders = () => {
           selectedAccount,
           orderId
         )) as Order;
-        const { category, id, image, name, cost, rating, stock } = product;
+        const { category, id, image, name, cost, rating, stock, description } =
+          product;
         orders.push({
           time,
           status,
-          product: { category, id, image, name, cost, rating, stock },
+          product: {
+            category,
+            id,
+            image,
+            name,
+            cost,
+            rating,
+            stock,
+            description,
+          },
         });
       }
 
