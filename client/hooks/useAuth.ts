@@ -67,4 +67,4 @@ export const useAuth = () => {
 };
 
 const USER_ROUTES = ["/orders"];
-const ADMIN_ROUTES = ["/manageOrders"];
+const ADMIN_ROUTES = ["/manageOrders", "/createProduct"];

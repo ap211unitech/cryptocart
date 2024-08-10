@@ -19,17 +19,6 @@ import { LoaderCircle } from "lucide-react";
 import { getRandomNumber } from "@/lib/utils";
 import { ethers } from "ethers";
 
-const DEFAULT_DATA = {
-  productName: "Cricket Kit",
-  category: "Sports",
-  description:
-    "This Cricket Kit is an essential collection of equipment for anyone serious about playing the game of cricket. Whether you're an amateur player or a seasoned professional, a well-equipped cricket kit is crucial for safety, comfort, and performance on the field. The kit includes a cricket bat, which is the core tool for scoring runs. The bat is made of willow wood, known for its durability and balance, which allows players to execute a wide range of shots with precision.\n\nIn addition to the bat, a cricket kit also contains protective gear, which is vital for safeguarding players against the high-speed deliveries often seen in the game. Batting pads are designed to protect the legs, while batting gloves shield the hands and fingers from injury. Helmet is included to protect the head and face from fast bowlers, and additional padding like thigh guards and an abdominal guard are also standard components to ensure comprehensive protection.\n\nThis kit is accompanied by a kit bag, which is specifically designed to carry all the equipment conveniently. This bag features compartments for organizing the gear, making it easy for players to transport their equipment to and from the field.\n\nFor beginners, the kit provides everything needed to start playing with confidence, while experienced players benefit from the quality and durability of the gear, allowing them to focus on their performance. Overall, this cricket kit is an indispensable part of a cricketer's journey, offering the right balance of protection, convenience, and quality.",
-  image:
-    "https://rukminim2.flixcart.com/image/750/900/kvpklu80/kit/t/0/y/mrf-grand-edition-vk-18-junior-cricket-set-of-5-no-ideal-for-10-original-imag8k2bjfqxarfc.jpeg?q=20&crop=false",
-  cost: "0.046",
-  stock: "24",
-};
-
 const formSchema = z.object({
   productName: z.string().nonempty("Product name is required").min(5).max(100),
   category: z.string().nonempty("Product Category is required").min(5).max(100),
@@ -44,15 +33,14 @@ export const CreateProduct = () => {
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: DEFAULT_DATA,
-    // defaultValues: {
-    //   productName: "",
-    //   category: "",
-    //   description: "",
-    //   image: "",
-    //   cost: "",
-    //   stock: "",
-    // },
+    defaultValues: {
+      productName: "",
+      category: "",
+      description: "",
+      image: "",
+      cost: "",
+      stock: "",
+    },
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {

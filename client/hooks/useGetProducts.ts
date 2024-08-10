@@ -2,7 +2,7 @@ import { abi } from "@/config/abi";
 import { CONTRACT_ADDRESS } from "@/config/contract";
 import { Product } from "@/types";
 import { useQuery } from "@tanstack/react-query";
-import { ethers } from "ethers";
+import { BigNumber, ethers } from "ethers";
 
 export const useGetProducts = () => {
   return useQuery({
@@ -14,8 +14,16 @@ export const useGetProducts = () => {
         );
         const contract = new ethers.Contract(CONTRACT_ADDRESS, abi, provider);
 
-        const products = [];
-        for (let i = 1; i < 10; i++) {
+        const productIds = (
+          (await contract.queryFilter("ProductCreated"))
+            .map((e) => e.args?.at(0))
+            .filter(
+              (value, index, self) =>
+                value !== undefined && self.indexOf(value) === index
+            ) as BigNumber[]
+        ).map((a) => a.toNumber());
+
+        const products = productIds.map(async (i): Promise<Product> => {
           const {
             category,
             id,
@@ -27,9 +35,7 @@ export const useGetProducts = () => {
             description,
           } = (await contract.products(i)) as Product;
 
-          if (!image) continue;
-
-          products.push({
+          return {
             category,
             id,
             image,
@@ -38,11 +44,11 @@ export const useGetProducts = () => {
             rating,
             stock,
             description,
-          });
-        }
-        return products;
+          };
+        });
+
+        return Promise.all(products);
       }
-      return [];
     },
   });
 };
