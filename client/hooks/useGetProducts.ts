@@ -26,6 +26,9 @@ export const useGetProducts = () => {
             stock,
             description,
           } = (await contract.products(i)) as Product;
+
+          if (!image) continue;
+
           products.push({
             category,
             id,

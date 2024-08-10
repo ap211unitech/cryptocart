@@ -6,3 +6,4 @@ export * from "./useAuth";
 export * from "./useAllOrders";
 export * from "./useChangeOrderStatus";
 export * from "./useWithdraw";
+export * from "./useCreateProduct";

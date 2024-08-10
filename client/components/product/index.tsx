@@ -47,7 +47,7 @@ export const ProductItem = ({ productId }: { productId: string }) => {
             <Separator />
             <section className="my-4">
               <h2 className="text-2xl font-semibold mb-2">Overview</h2>
-              <p className="text-muted-foreground text-sm">
+              <p className="text-muted-foreground text-sm whitespace-pre-wrap">
                 {product.description}
               </p>
             </section>

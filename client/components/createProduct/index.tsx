@@ -14,36 +14,66 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { useCreateProduct } from "@/hooks";
+import { LoaderCircle } from "lucide-react";
+import { getRandomNumber } from "@/lib/utils";
+import { ethers } from "ethers";
+
+const DEFAULT_DATA = {
+  productName: "Cricket Kit",
+  category: "Sports",
+  description:
+    "This Cricket Kit is an essential collection of equipment for anyone serious about playing the game of cricket. Whether you're an amateur player or a seasoned professional, a well-equipped cricket kit is crucial for safety, comfort, and performance on the field. The kit includes a cricket bat, which is the core tool for scoring runs. The bat is made of willow wood, known for its durability and balance, which allows players to execute a wide range of shots with precision.\n\nIn addition to the bat, a cricket kit also contains protective gear, which is vital for safeguarding players against the high-speed deliveries often seen in the game. Batting pads are designed to protect the legs, while batting gloves shield the hands and fingers from injury. Helmet is included to protect the head and face from fast bowlers, and additional padding like thigh guards and an abdominal guard are also standard components to ensure comprehensive protection.\n\nThis kit is accompanied by a kit bag, which is specifically designed to carry all the equipment conveniently. This bag features compartments for organizing the gear, making it easy for players to transport their equipment to and from the field.\n\nFor beginners, the kit provides everything needed to start playing with confidence, while experienced players benefit from the quality and durability of the gear, allowing them to focus on their performance. Overall, this cricket kit is an indispensable part of a cricketer's journey, offering the right balance of protection, convenience, and quality.",
+  image:
+    "https://rukminim2.flixcart.com/image/750/900/kvpklu80/kit/t/0/y/mrf-grand-edition-vk-18-junior-cricket-set-of-5-no-ideal-for-10-original-imag8k2bjfqxarfc.jpeg?q=20&crop=false",
+  cost: "0.046",
+  stock: "24",
+};
 
 const formSchema = z.object({
-  productName: z.string().nonempty("Product name is required").min(5).max(50),
-  category: z.string().nonempty("Product Category is required").min(5).max(30),
-  description: z
-    .string()
-    .nonempty("Product description is required")
-    .min(100)
-    .max(1000),
+  productName: z.string().nonempty("Product name is required").min(5).max(100),
+  category: z.string().nonempty("Product Category is required").min(5).max(100),
+  description: z.string().nonempty("Product description is required").min(100),
   image: z.string().nonempty("Product Image is required"),
-  cost: z.number().gt(0),
-  stock: z.number().gt(0),
+  cost: z.string(),
+  stock: z.string(),
 });
 
 export const CreateProduct = () => {
+  const { mutateAsync: onCreateProduct, isPending } = useCreateProduct();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
+    defaultValues: DEFAULT_DATA,
+    // defaultValues: {
+    //   productName: "",
+    //   category: "",
+    //   description: "",
+    //   image: "",
+    //   cost: "",
+    //   stock: "",
+    // },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
-  }
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    const cost = ethers.utils.parseEther(values.cost);
+    await onCreateProduct({
+      ...values,
+      cost,
+      stock: +values.stock,
+      rating: getRandomNumber(1, 5),
+      id: getRandomNumber(10000, 99999),
+    });
+  };
 
   return (
     <div className="sm:container px-2 py-4">
       <h1 className="font-semibold text-3xl mb-8">Create Product</h1>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="space-y-3 max-w-[800px]"
+        >
           <FormField
             control={form.control}
             name="productName"
@@ -91,7 +121,7 @@ export const CreateProduct = () => {
                 <FormLabel>Description</FormLabel>
                 <FormControl>
                   <Textarea
-                    rows={6}
+                    rows={10}
                     placeholder="Discover the perfect addition to your lifestyle with this product. Designed with quality and functionality in mind, this product offers exceptional performance, making it a must-have for anyone looking to enhance their everyday experience. Whether you're at home, at work, or on the go, this versatile item is crafted to meet your needs with ease. With a sleek design and durable construction, it blends style and practicality seamlessly. Ideal for both personal use and as a thoughtful gift, our product is sure to impress. Explore the benefits today and experience the difference it can make in your life."
                     {...field}
                   />
@@ -123,7 +153,16 @@ export const CreateProduct = () => {
               </FormItem>
             )}
           />
-          <Button type="submit">Create Product</Button>
+          <Button
+            type="submit"
+            disabled={isPending}
+            className="flex items-center"
+          >
+            {isPending && (
+              <LoaderCircle className="w-4 h-4 mr-2 animate-spin" />
+            )}
+            Create Product
+          </Button>
         </form>
       </Form>
     </div>

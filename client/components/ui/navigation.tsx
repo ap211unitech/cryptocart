@@ -13,7 +13,7 @@ export const Navigation = () => {
   return (
     <div className="border-b shadow-sm flex items-center justify-between px-4 py-2">
       <h1
-        className={`text-pink px-6 py-2 font-semibold text-4xl cursor-pointer ${CormorantFont.className}`}
+        className={`text-pink sm:px-4 py-2 font-semibold text-4xl cursor-pointer ${CormorantFont.className}`}
       >
         <Link href="/">CryptoCart</Link>
       </h1>

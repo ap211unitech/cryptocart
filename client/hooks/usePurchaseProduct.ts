@@ -29,7 +29,7 @@ export const usePurchaseProduct = () => {
       toast.error(err.message);
     },
     onSuccess: () => {
-      toast.success("Prouct purchased successfully !!");
+      toast.success("Product purchased successfully !!");
 
       queryClient.refetchQueries({
         queryKey: ["orders", selectedAccount],
