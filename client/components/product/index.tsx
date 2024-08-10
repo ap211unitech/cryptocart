@@ -3,6 +3,7 @@
 import { ChevronsRight, LoaderCircle } from "lucide-react";
 import { ethers } from "ethers";
 import Image from "next/image";
+import { useAtom } from "jotai";
 
 import { Rating } from "../ui/rating";
 import { Separator } from "../ui/separator";
@@ -11,8 +12,10 @@ import { Button } from "../ui/button";
 import { Loading } from "./loading";
 
 import { useGetProduct, usePurchaseProduct } from "@/hooks";
+import { selectedAccountAtom } from "@/providers/jotai";
 
 export const ProductItem = ({ productId }: { productId: string }) => {
+  const [selectedAccount] = useAtom(selectedAccountAtom);
   const { data: product, isLoading } = useGetProduct({ productId });
   const { mutateAsync: purchaseProduct, isPending: isPurchaseProductLoading } =
     usePurchaseProduct();
@@ -84,15 +87,17 @@ export const ProductItem = ({ productId }: { productId: string }) => {
             </section>
 
             {product.stock > 1 ? (
-              <Button
-                onClick={() => purchaseProduct(product)}
-                disabled={isPurchaseProductLoading}
-              >
-                {isPurchaseProductLoading && (
-                  <LoaderCircle className="w-4 h-4 mr-2 animate-spin" />
-                )}
-                Purchase
-              </Button>
+              selectedAccount && (
+                <Button
+                  onClick={() => purchaseProduct(product)}
+                  disabled={isPurchaseProductLoading}
+                >
+                  {isPurchaseProductLoading && (
+                    <LoaderCircle className="w-4 h-4 mr-2 animate-spin" />
+                  )}
+                  Purchase
+                </Button>
+              )
             ) : (
               <p className="text-destructive">Out of stock</p>
             )}
