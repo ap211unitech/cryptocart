@@ -5,11 +5,12 @@ import { useQuery } from "@tanstack/react-query";
 import { ethers } from "ethers";
 import { useAtom } from "jotai";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export const useAuth = () => {
   const router = useRouter();
   const path = usePathname();
+  const [hydrated, setHydrated] = useState(false);
   const [isAdmin, setAdmin] = useAtom(adminAtom);
   const [selectedAccount] = useAtom(selectedAccountAtom);
 
@@ -34,17 +35,19 @@ export const useAuth = () => {
   };
 
   useEffect(() => {
+    setHydrated(true);
     // switchNetwork();
   }, []);
 
   useEffect(() => {
+    if (!hydrated) return;
     if (selectedAccount) {
       if (!isAdmin && ADMIN_ROUTES.includes(path)) router.push("/");
     } else {
       if (USER_ROUTES.includes(path) || ADMIN_ROUTES.includes(path))
         router.push("/");
     }
-  }, [isAdmin, path, router, selectedAccount]);
+  }, [hydrated, isAdmin, path, router, selectedAccount]);
 
   return useQuery({
     queryKey: ["getUserStatus", selectedAccount],

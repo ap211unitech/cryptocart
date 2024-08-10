@@ -24,7 +24,7 @@ import { Order } from "@/types";
 
 export const ConnectWallet = () => {
   const [selectedAccount, setSelectedAccount] = useAtom(selectedAccountAtom);
-  const [isAdmin] = useAtom(adminAtom);
+  const [isAdmin, setAdmin] = useAtom(adminAtom);
   const { data: orders } = useOrders();
 
   const handleConnect = async () => {
@@ -45,7 +45,10 @@ export const ConnectWallet = () => {
     }
   };
 
-  const handleLogout = () => setSelectedAccount(null);
+  const handleLogout = () => {
+    setSelectedAccount(null);
+    setAdmin(false);
+  };
 
   return (
     <div>

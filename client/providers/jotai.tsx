@@ -6,4 +6,4 @@ export const selectedAccountAtom = atomWithStorage<string | null>(
   null
 );
 
-export const adminAtom = atom<boolean>(false);
+export const adminAtom = atomWithStorage<boolean>("isAdmin", false);
