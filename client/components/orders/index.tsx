@@ -13,6 +13,7 @@ import { OrderStatus } from "@/types";
 
 import { Loading } from "./loading";
 import { useMemo } from "react";
+import { availableStatuses } from "@/config/orderStatus";
 
 export const Orders = () => {
   const { width } = useWindowSize();
@@ -75,12 +76,19 @@ export const Orders = () => {
                       )}{" "}
                       ETH
                     </p>
-                    <Badge variant="secondary" className="rounded-sm">
-                      {e.status === OrderStatus.PaymentDone && "Payment Done"}
-                      {e.status === OrderStatus.Completed && "Delivered"}
-                      {e.status === OrderStatus.Cancelled && "Rejected"}
-                      {e.status === OrderStatus.Shipped && "Shipped"}
-                    </Badge>
+                    {availableStatuses.map((s) => {
+                      return (
+                        e.status === s.type && (
+                          <Badge
+                            key={s.type}
+                            variant="secondary"
+                            className={`rounded-sm ${s.bg}`}
+                          >
+                            {s.name}
+                          </Badge>
+                        )
+                      );
+                    })}
                     <section className="flex items-center gap-4 mt-4">
                       <Button
                         size="sm"

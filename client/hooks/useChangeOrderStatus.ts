@@ -1,8 +1,10 @@
 import { abi } from "@/config/abi";
 import { CONTRACT_ADDRESS } from "@/config/contract";
+import { adminAtom, selectedAccountAtom } from "@/providers/jotai";
 import { OrderStatus } from "@/types";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ethers } from "ethers";
+import { useAtom } from "jotai";
 import { toast } from "sonner";
 
 type Args = {
@@ -12,6 +14,10 @@ type Args = {
 };
 
 export const useChangeOrderStatus = () => {
+  const queryClient = useQueryClient();
+  const [selectedAccount] = useAtom(selectedAccountAtom);
+  const [isAdmin] = useAtom(adminAtom);
+
   return useMutation({
     mutationFn: async ({ buyer, orderId, newOrderStatus }: Args) => {
       const provider = new ethers.providers.Web3Provider(
@@ -29,6 +35,16 @@ export const useChangeOrderStatus = () => {
     },
     onSuccess: () => {
       toast.success("Order Status changed !!");
+
+      queryClient.refetchQueries({
+        queryKey: ["orders", selectedAccount],
+        exact: true,
+      });
+
+      queryClient.refetchQueries({
+        queryKey: ["allOrders", selectedAccount, isAdmin],
+        exact: true,
+      });
     },
   });
 };
