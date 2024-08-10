@@ -113,7 +113,11 @@ Contributions are welcome! Please fork the repository and submit a pull request.
 4. Push to the branch (`git push origin feature-branch`)
 5. Open a pull request
 
-See Live - https://cryptocarta.vercel.app/
+## See Live
+https://cryptocarta.vercel.app/
 
-Reach me out - porwalarjun95@gmail.com
-Connect with me - https://www.linkedin.com/in/arjun-porwal-9198b71a3/
+## Reach me out
+porwalarjun95@gmail.com
+
+## Connect with me
+https://www.linkedin.com/in/arjun-porwal-9198b71a3/
