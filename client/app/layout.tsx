@@ -31,7 +31,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <Providers>
           <Alert className="bg-yellow-100 py-2 rounded-none">
-            <AlertDescription className="flex items-center justify-center gap-2">
+            <AlertDescription className="flex items-center justify-center gap-2 text-black">
               <TriangleAlert className="h-5 w-5" />
               CryptoCart is currently deployed exclusively on the Sepolia
               Testnet.

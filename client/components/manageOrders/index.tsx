@@ -151,7 +151,7 @@ export const SingleOrderItem = ({
               <Badge
                 key={s.type}
                 variant="secondary"
-                className={`rounded-sm ${s.bg}`}
+                className={`rounded-sm text-black ${s.bg}`}
               >
                 {s.name}
               </Badge>

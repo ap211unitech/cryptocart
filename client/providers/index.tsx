@@ -1,6 +1,5 @@
 "use client";
 
-import { useAuth } from "@/hooks";
 import {
   dehydrate,
   HydrationBoundary,
@@ -11,19 +10,30 @@ import { Provider as JotaiProvider } from "jotai";
 import { ReactNode, useState } from "react";
 import { Toaster } from "sonner";
 
+import { ThemeProvider } from "./theme";
+
+import { useAuth } from "@/hooks";
+
 export const Providers = ({ children }: { children: ReactNode }) => {
   const [queryClient] = useState(() => new QueryClient());
 
   return (
-    <JotaiProvider>
-      <QueryClientProvider client={queryClient}>
-        <HydrationBoundary state={dehydrate(queryClient)}>
-          <Toaster richColors />
-          <Auth />
-          {children}
-        </HydrationBoundary>
-      </QueryClientProvider>
-    </JotaiProvider>
+    <ThemeProvider
+      attribute="class"
+      defaultTheme="light"
+      enableSystem
+      disableTransitionOnChange
+    >
+      <JotaiProvider>
+        <QueryClientProvider client={queryClient}>
+          <HydrationBoundary state={dehydrate(queryClient)}>
+            <Toaster richColors />
+            <Auth />
+            {children}
+          </HydrationBoundary>
+        </QueryClientProvider>
+      </JotaiProvider>
+    </ThemeProvider>
   );
 };
 
