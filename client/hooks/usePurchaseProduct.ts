@@ -1,12 +1,18 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ethers } from "ethers";
 
 import { Product } from "@/types";
 import { CONTRACT_ADDRESS } from "@/config/contract";
 import { abi } from "@/config/abi";
 import { toast } from "sonner";
+import { useAtom } from "jotai";
+import { adminAtom, selectedAccountAtom } from "@/providers/jotai";
 
 export const usePurchaseProduct = () => {
+  const queryClient = useQueryClient();
+  const [selectedAccount] = useAtom(selectedAccountAtom);
+  const [isAdmin] = useAtom(adminAtom);
+
   return useMutation({
     mutationFn: async (product: Product) => {
       const provider = new ethers.providers.Web3Provider(
@@ -24,6 +30,16 @@ export const usePurchaseProduct = () => {
     },
     onSuccess: () => {
       toast.success("Prouct purchased successfully !!");
+
+      queryClient.refetchQueries({
+        queryKey: ["orders", selectedAccount],
+        exact: true,
+      });
+
+      queryClient.refetchQueries({
+        queryKey: ["allOrders", selectedAccount, isAdmin],
+        exact: true,
+      });
     },
   });
 };

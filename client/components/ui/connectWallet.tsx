@@ -14,6 +14,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { LogOut, ShoppingBasket } from "lucide-react";
 import { useOrders } from "@/hooks";
+import { toast } from "sonner";
+import { ethers } from "ethers";
 
 export const ConnectWallet = () => {
   const [selectedAccount, setSelectedAccount] = useAtom(selectedAccountAtom);
@@ -21,11 +23,20 @@ export const ConnectWallet = () => {
   const { data: orders } = useOrders();
 
   const handleConnect = async () => {
-    if (window.ethereum) {
-      const wallets = (await window.ethereum.request({
-        method: "eth_requestAccounts",
-      })) as string[];
+    if (typeof window.ethereum !== "undefined") {
+      const provider = new ethers.providers.Web3Provider(
+        window.ethereum as any
+      );
+
+      const wallets = (await provider.send(
+        "eth_requestAccounts",
+        []
+      )) as string[];
       if (wallets.length) setSelectedAccount(wallets[0]);
+    } else {
+      toast.info("Please install Metamask !! Redirecting....");
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      window.open("https://metamask.io/download/", "_blank");
     }
   };
 

@@ -25,7 +25,7 @@ export const Orders = () => {
 
   return (
     <div className="md:container p-4">
-      {!orders ? (
+      {!orders?.length ? (
         <h1 className="text-xl">No orders found...</h1>
       ) : (
         <div>
@@ -53,6 +53,7 @@ export const Orders = () => {
                       width={200}
                       height={200}
                       className="rounded-md"
+                      objectFit="cover"
                     />
                   </Link>
                   <div>

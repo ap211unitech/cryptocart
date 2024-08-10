@@ -9,7 +9,7 @@ export const useAuth = () => {
   const [, setAdmin] = useAtom(adminAtom);
   const [selectedAccount] = useAtom(selectedAccountAtom);
   return useQuery({
-    queryKey: ["getUserStatus"],
+    queryKey: ["getUserStatus", selectedAccount],
     enabled: !!selectedAccount,
     queryFn: async () => {
       if (window.ethereum) {
@@ -17,9 +17,10 @@ export const useAuth = () => {
           window.ethereum as any
         );
         const contract = new ethers.Contract(CONTRACT_ADDRESS, abi, provider);
-        const owner = await contract.owner();
-        setAdmin(owner === selectedAccount);
+        const owner = (await contract.owner()) as string;
+        setAdmin(owner.toLowerCase() === selectedAccount);
       }
+      return 0;
     },
   });
 };
