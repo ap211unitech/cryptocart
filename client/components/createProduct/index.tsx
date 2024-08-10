@@ -10,6 +10,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
+  FormMessage,
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -72,6 +73,7 @@ export const CreateProduct = () => {
                 <FormControl>
                   <Input placeholder="Camera" {...field} />
                 </FormControl>
+                <FormMessage />
               </FormItem>
             )}
           />
@@ -84,6 +86,7 @@ export const CreateProduct = () => {
                 <FormControl>
                   <Input placeholder="Electronics" {...field} />
                 </FormControl>
+                <FormMessage />
               </FormItem>
             )}
           />
@@ -99,6 +102,7 @@ export const CreateProduct = () => {
                     {...field}
                   />
                 </FormControl>
+                <FormMessage />
               </FormItem>
             )}
           />
@@ -115,6 +119,7 @@ export const CreateProduct = () => {
                     {...field}
                   />
                 </FormControl>
+                <FormMessage />
               </FormItem>
             )}
           />
@@ -127,6 +132,7 @@ export const CreateProduct = () => {
                 <FormControl>
                   <Input placeholder="0.124" {...field} />
                 </FormControl>
+                <FormMessage />
               </FormItem>
             )}
           />
@@ -139,6 +145,7 @@ export const CreateProduct = () => {
                 <FormControl>
                   <Input placeholder="10" {...field} />
                 </FormControl>
+                <FormMessage />
               </FormItem>
             )}
           />
