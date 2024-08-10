@@ -5,12 +5,7 @@ import { useAtom } from "jotai";
 import { abi } from "@/config/abi";
 import { CONTRACT_ADDRESS } from "@/config/contract";
 import { adminAtom, selectedAccountAtom } from "@/providers/jotai";
-import { Order } from "@/types";
-
-type AllOrder = {
-  buyer: string;
-  orders: Order[];
-};
+import { AllOrder, Order } from "@/types";
 
 export const useAllOrders = () => {
   const [selectedAccount] = useAtom(selectedAccountAtom);

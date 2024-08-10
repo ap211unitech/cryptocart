@@ -1,6 +1,6 @@
 "use client";
 
-import { ChevronsRight } from "lucide-react";
+import { ChevronsRight, LoaderCircle } from "lucide-react";
 import { ethers } from "ethers";
 import Image from "next/image";
 
@@ -14,7 +14,8 @@ import { useGetProduct, usePurchaseProduct } from "@/hooks";
 
 export const ProductItem = ({ productId }: { productId: string }) => {
   const { data: product, isLoading } = useGetProduct({ productId });
-  const { mutateAsync: purchaseProduct } = usePurchaseProduct();
+  const { mutateAsync: purchaseProduct, isPending: isPurchaseProductLoading } =
+    usePurchaseProduct();
 
   if (isLoading) return <Loading />;
 
@@ -83,7 +84,15 @@ export const ProductItem = ({ productId }: { productId: string }) => {
             </section>
 
             {product.stock > 1 ? (
-              <Button onClick={() => purchaseProduct(product)}>Purchase</Button>
+              <Button
+                onClick={() => purchaseProduct(product)}
+                disabled={isPurchaseProductLoading}
+              >
+                {isPurchaseProductLoading && (
+                  <LoaderCircle className="w-4 h-4 mr-2 animate-spin" />
+                )}
+                Purchase
+              </Button>
             ) : (
               <p className="text-destructive">Out of stock</p>
             )}

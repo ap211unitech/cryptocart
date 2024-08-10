@@ -20,3 +20,8 @@ export type Order = {
   product: Product;
   status: OrderStatus;
 };
+
+export type AllOrder = {
+  buyer: string;
+  orders: Order[];
+};
