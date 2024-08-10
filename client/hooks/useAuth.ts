@@ -16,27 +16,37 @@ export const useAuth = () => {
 
   const switchNetwork = async () => {
     if (!window.ethereum) return;
-    await window.ethereum.request({
-      method: "wallet_addEthereumChain",
-      params: [
-        {
-          chainId: ethers.utils.hexValue(11155111),
-          rpcUrls: ["https://ethereum-sepolia.publicnode.com"],
-          chainName: "Sepolia",
-          nativeCurrency: {
-            name: "SEP",
-            symbol: "SEP",
-            decimals: 18,
+    const chainId = ethers.utils.hexValue(11155111);
+    try {
+      await window.ethereum.request({
+        method: "wallet_addEthereumChain",
+        params: [
+          {
+            chainId,
+            rpcUrls: ["https://ethereum-sepolia.publicnode.com"],
+            chainName: "Sepolia",
+            nativeCurrency: {
+              name: "SEP",
+              symbol: "SEP",
+              decimals: 18,
+            },
+            blockExplorerUrls: ["https://sepolia.etherscan.io/"],
           },
-          blockExplorerUrls: ["https://sepolia.etherscan.io/"],
-        },
-      ],
-    });
+        ],
+      });
+    } catch (e) {
+      await window.ethereum.request({
+        method: "wallet_switchEthereumChain",
+        params: [{ chainId }],
+      });
+    }
   };
 
   useEffect(() => {
     setHydrated(true);
-    // switchNetwork();
+    if (process.env.NODE_ENV === "production") {
+      switchNetwork();
+    }
   }, []);
 
   useEffect(() => {
