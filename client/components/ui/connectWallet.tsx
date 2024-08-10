@@ -12,8 +12,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 import Image from "next/image";
 import Link from "next/link";
-import { LogOut, ShoppingBasket } from "lucide-react";
-import { useOrders } from "@/hooks";
+import { HandCoins, LogOut, ShoppingBasket } from "lucide-react";
+import { useOrders, useWithdraw } from "@/hooks";
 import { toast } from "sonner";
 import { ethers } from "ethers";
 
@@ -21,6 +21,7 @@ export const ConnectWallet = () => {
   const [selectedAccount, setSelectedAccount] = useAtom(selectedAccountAtom);
   const [isAdmin] = useAtom(adminAtom);
   const { data: orders } = useOrders();
+  const { mutateAsync: onWithdraw } = useWithdraw();
 
   const handleConnect = async () => {
     if (typeof window.ethereum !== "undefined") {
@@ -73,6 +74,15 @@ export const ConnectWallet = () => {
                     <ShoppingBasket className="mr-2 h-4 w-4" />
                     <span>All Orders</span>
                   </Link>
+                </DropdownMenuItem>
+              )}
+              {isAdmin && (
+                <DropdownMenuItem
+                  className="cursor-pointer"
+                  onClick={() => onWithdraw()}
+                >
+                  <HandCoins className="mr-2 h-4 w-4" />
+                  <span>Withdraw Funds</span>
                 </DropdownMenuItem>
               )}
               <DropdownMenuItem
