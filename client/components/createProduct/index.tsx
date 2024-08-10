@@ -52,6 +52,7 @@ export const CreateProduct = () => {
       rating: getRandomNumber(1, 5),
       id: getRandomNumber(10000, 99999),
     });
+    form.reset();
   };
 
   return (
