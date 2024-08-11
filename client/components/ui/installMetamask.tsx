@@ -32,8 +32,8 @@ export const InstallMetaMask = () => {
               className="text-rose-600 hover:underline underline-offset-2"
             >
               Get Metamask
-            </Link>{" "}
-            , SetUp account & Refresh the page.
+            </Link>
+            , Setup accounts, Switch to Sepolia Testnet & Refresh the page.
           </div>
         </AlertDescription>
       </Alert>
