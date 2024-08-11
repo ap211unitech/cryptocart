@@ -1,5 +1,6 @@
 import { abi } from "@/config/abi";
 import { CONTRACT_ADDRESS } from "@/config/contract";
+import { getProvider } from "@/lib/utils";
 import { Product } from "@/types";
 import { useQuery } from "@tanstack/react-query";
 import { BigNumber, ethers } from "ethers";
@@ -9,9 +10,7 @@ export const useGetProducts = () => {
     queryKey: ["getAllProducts"],
     queryFn: async () => {
       if (window.ethereum) {
-        const provider = new ethers.providers.Web3Provider(
-          window.ethereum as any
-        );
+        const provider = getProvider();
         const contract = new ethers.Contract(CONTRACT_ADDRESS, abi, provider);
 
         const productIds = (

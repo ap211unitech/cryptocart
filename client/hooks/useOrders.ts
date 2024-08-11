@@ -6,6 +6,7 @@ import { selectedAccountAtom } from "@/providers/jotai";
 import { CONTRACT_ADDRESS } from "@/config/contract";
 import { abi } from "@/config/abi";
 import { Order } from "@/types";
+import { getProvider } from "@/lib/utils";
 
 export const useOrders = () => {
   const [selectedAccount] = useAtom(selectedAccountAtom);
@@ -13,9 +14,7 @@ export const useOrders = () => {
     queryKey: ["orders", selectedAccount],
     enabled: !!selectedAccount,
     queryFn: async () => {
-      const provider = new ethers.providers.Web3Provider(
-        window.ethereum as any
-      );
+      const provider = getProvider();
       const contract = new ethers.Contract(CONTRACT_ADDRESS, abi, provider);
       const orderCount = await contract.orderCount(selectedAccount);
       const orders = [];

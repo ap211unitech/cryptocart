@@ -1,5 +1,6 @@
 import { abi } from "@/config/abi";
 import { CONTRACT_ADDRESS } from "@/config/contract";
+import { getProvider } from "@/lib/utils";
 import { adminAtom, selectedAccountAtom } from "@/providers/jotai";
 import { OrderStatus } from "@/types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -20,9 +21,7 @@ export const useChangeOrderStatus = () => {
 
   return useMutation({
     mutationFn: async ({ buyer, orderId, newOrderStatus }: Args) => {
-      const provider = new ethers.providers.Web3Provider(
-        window.ethereum as any
-      );
+      const provider = getProvider();
       const contract = new ethers.Contract(CONTRACT_ADDRESS, abi, provider);
       const signer = await provider.getSigner();
       const tx = await contract

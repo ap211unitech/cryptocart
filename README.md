@@ -83,10 +83,12 @@ Make sure you have the following installed:
     cd hardhat && yarn hardhat run ./scripts/deploy.js --network sepolia
     ```
 
-5. Start the development server:
+5. Start the build server:
 
     ```bash
-    cd client && yarn dev
+    cd client
+    yarn build
+    yarn start
     ```
 
 6. Open your browser and navigate to `http://localhost:3000`.

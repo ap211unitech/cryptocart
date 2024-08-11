@@ -7,6 +7,7 @@ import { abi } from "@/config/abi";
 import { toast } from "sonner";
 import { useAtom } from "jotai";
 import { adminAtom, selectedAccountAtom } from "@/providers/jotai";
+import { getProvider } from "@/lib/utils";
 
 export const usePurchaseProduct = () => {
   const queryClient = useQueryClient();
@@ -15,9 +16,7 @@ export const usePurchaseProduct = () => {
 
   return useMutation({
     mutationFn: async (product: Product) => {
-      const provider = new ethers.providers.Web3Provider(
-        window.ethereum as any
-      );
+      const provider = getProvider();
       const contract = new ethers.Contract(CONTRACT_ADDRESS, abi, provider);
       const signer = await provider.getSigner();
       const tx = await contract

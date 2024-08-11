@@ -1,5 +1,6 @@
 import { abi } from "@/config/abi";
 import { CONTRACT_ADDRESS } from "@/config/contract";
+import { getProvider } from "@/lib/utils";
 import { adminAtom, selectedAccountAtom } from "@/providers/jotai";
 import { useQuery } from "@tanstack/react-query";
 import { ethers } from "ethers";
@@ -34,6 +35,10 @@ export const useAuth = () => {
           },
         ],
       });
+      await window.ethereum.request({
+        method: "wallet_switchEthereumChain",
+        params: [{ chainId }],
+      });
     } catch (e) {
       await window.ethereum.request({
         method: "wallet_switchEthereumChain",
@@ -64,9 +69,7 @@ export const useAuth = () => {
     enabled: !!selectedAccount,
     queryFn: async () => {
       if (window.ethereum) {
-        const provider = new ethers.providers.Web3Provider(
-          window.ethereum as any
-        );
+        const provider = getProvider();
         const contract = new ethers.Contract(CONTRACT_ADDRESS, abi, provider);
         const owner = (await contract.owner()) as string;
         setAdmin(owner.toLowerCase() === selectedAccount);

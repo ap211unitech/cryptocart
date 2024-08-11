@@ -7,6 +7,7 @@ import { Navigation } from "@/components/ui/navigation";
 import { Providers } from "@/providers";
 
 import "./globals.css";
+import { InstallMetaMask } from "@/components/ui/installMetamask";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -37,6 +38,7 @@ export default function RootLayout({
               Testnet.
             </AlertDescription>
           </Alert>
+          <InstallMetaMask />
           <Navigation />
           {children}
         </Providers>
