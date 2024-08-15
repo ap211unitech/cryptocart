@@ -19,7 +19,7 @@ export const ProductsList = () => {
     <div>
       <div>
         {Object.entries(
-          Object.groupBy(products, ({ category }) => category)
+          Object.groupBy(products, ({ category }) => category.toLowerCase())
         ).map((e) => {
           const category = e[0];
           const items = e[1];
