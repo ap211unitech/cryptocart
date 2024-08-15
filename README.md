@@ -2,6 +2,9 @@
 
 CryptoCart is a Decentralized eCommerce platform built on the blockchain, leveraging Next.js for the frontend and Solidity for smart contract development. This project enables users to browse, purchase, and sell products using cryptocurrency, providing a secure and transparent shopping experience. 
 
+
+<video src="CryptoCart Demo.mp4" controls></video>
+
 ## Table of Contents
 
 - [Features](#features)
